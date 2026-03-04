@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const status = parseExamStatusParam(url.searchParams.get("status"));
-    const exams = examService.list(status);
+    const exams = await examService.list(status);
 
     return ok({
       items: exams,
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const payload = parseCreateExamPayload(await readJson(request));
-    const exam = examService.create(payload);
+    const exam = await examService.create(payload);
     return ok(exam, 201);
   } catch (error) {
     return fail(error);

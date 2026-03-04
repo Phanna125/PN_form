@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Exam {
+  id                  String        @id
+  title               String
+  course              String
+  status              String
+  durationMinutes     Int
+  lockdownBrowser     Boolean       @default(true)
+  clipboardLock       Boolean       @default(true)
+  blackoutMode        Boolean       @default(true)
+  screenshotDetection Boolean       @default(true)
+  aiFocusLogs         Boolean       @default(true)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  questions           ExamQuestion[]
+  sessions            ExamSession[]
+
+  @@index([status])
+}
+
+model ExamQuestion {
+  id      String @id
+  examId  String
+  type    String
+  prompt  String
+  points  Int
+  order   Int
+  options Json
+  exam    Exam   @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@index([examId, order])
+}
+
+model ExamSession {
+  id                      String         @id
+  examId                  String
+  studentName             String
+  studentId               String
+  status                  String
+  focusScore              Int            @default(100)
+  focusLossCount          Int            @default(0)
+  blockedClipboardActions Int            @default(0)
+  integrityFlags          Int            @default(0)
+  startedAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+  exam                    Exam           @relation(fields: [examId], references: [id], onDelete: Cascade)
+  events                  SessionEvent[]
+
+  @@index([examId, updatedAt])
+}
+
+model SessionEvent {
+  id        String      @id
+  examId    String
+  sessionId String
+  type      String
+  detail    String
+  severity  String
+  at        DateTime    @default(now())
+  session   ExamSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, at])
+  @@index([examId, sessionId])
+}

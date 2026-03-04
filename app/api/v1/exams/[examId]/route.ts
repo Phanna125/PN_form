@@ -18,13 +18,13 @@ export async function GET(
     const { examId } = await resolveParams(context.params);
     const url = new URL(request.url);
     const includeSessions = url.searchParams.get("includeSessions") === "true";
-    const exam = examService.getById(examId);
+    const exam = await examService.getById(examId);
 
     if (!includeSessions) {
       return ok(exam);
     }
 
-    const sessions = sessionService.listForExam(examId);
+    const sessions = await sessionService.listForExam(examId);
     return ok({
       exam,
       sessions,
@@ -41,7 +41,7 @@ export async function PATCH(
   try {
     const { examId } = await resolveParams(context.params);
     const payload = parseUpdateExamPayload(await readJson(request));
-    const updated = examService.update(examId, payload);
+    const updated = await examService.update(examId, payload);
     return ok(updated);
   } catch (error) {
     return fail(error);
@@ -54,7 +54,7 @@ export async function DELETE(
 ) {
   try {
     const { examId } = await resolveParams(context.params);
-    examService.delete(examId);
+    await examService.delete(examId);
     return ok({ deleted: true, examId });
   } catch (error) {
     return fail(error);

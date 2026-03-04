@@ -15,7 +15,7 @@ export async function GET(
 ) {
   try {
     const { examId } = await resolveParams(context.params);
-    const sessions = sessionService.listForExam(examId);
+    const sessions = await sessionService.listForExam(examId);
 
     return ok({
       items: sessions,
@@ -33,7 +33,7 @@ export async function POST(
   try {
     const { examId } = await resolveParams(context.params);
     const payload = parseCreateSessionPayload(await readJson(request));
-    const session = sessionService.create(examId, payload);
+    const session = await sessionService.create(examId, payload);
     return ok(session, 201);
   } catch (error) {
     return fail(error);

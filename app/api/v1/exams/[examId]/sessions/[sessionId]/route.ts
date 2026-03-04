@@ -16,13 +16,13 @@ export async function GET(
     const { examId, sessionId } = await resolveParams(context.params);
     const url = new URL(request.url);
     const includeEvents = url.searchParams.get("includeEvents") === "true";
-    const session = sessionService.getById(examId, sessionId);
+    const session = await sessionService.getById(examId, sessionId);
 
     if (!includeEvents) {
       return ok(session);
     }
 
-    const events = sessionService.listEvents(examId, sessionId);
+    const events = await sessionService.listEvents(examId, sessionId);
     return ok({
       session,
       events,
