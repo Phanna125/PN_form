@@ -1,0 +1,120 @@
+:root {
+  --bg: #edf2f8;
+  --surface: #f5f8fd;
+  --card: #ffffff;
+  --ink: #0f172f;
+  --muted: #5d6b86;
+  --line: #d6e0ee;
+  --blue: #2271f5;
+  --blue-deep: #0f4ccf;
+  --green: #1bbf75;
+  --teal: #00b5aa;
+  --orange: #ef9b34;
+  --danger: #eb5757;
+  --shadow: 0 22px 48px rgba(18, 39, 83, 0.12);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  color: var(--ink);
+  font-family: var(--font-body), sans-serif;
+  background:
+    radial-gradient(circle at 10% -30%, #dce9ff 0%, transparent 42%),
+    radial-gradient(circle at 100% 0%, #e8fff4 0%, transparent 35%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.container {
+  width: min(1180px, calc(100% - 2.25rem));
+  margin-inline: auto;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 0.8rem 1.3rem;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btnPrimary {
+  color: #fff;
+  background: linear-gradient(120deg, var(--blue) 0%, var(--blue-deep) 100%);
+  box-shadow: 0 10px 24px rgba(34, 113, 245, 0.35);
+}
+
+.btnGhost {
+  color: var(--ink);
+  border-color: var(--line);
+  background: #fff;
+}
+
+.btnDark {
+  color: #fff;
+  background: var(--ink);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.65rem;
+}
+
+@media (max-width: 760px) {
+  .container {
+    width: min(1180px, calc(100% - 1.2rem));
+  }
+}
